@@ -1,0 +1,25 @@
+{
+  "extends": ["react-app"],
+  "rules": {
+    "react/sort-prop-types": 1,
+    "react/sort-comp": [
+      "error",
+      {
+        "order": [
+          "static-methods",
+          "lifecycle",
+          "/^fetch.+$/",
+          "/^on.+$/",
+          "/^(get|set)(?!(InitialState$|DefaultProps$|ChildContext$)).+$/",
+          "everything-else",
+          "setup",
+          "/^setup.+$/",
+          "update",
+          "/^update.+$/",
+          "/^render.+$/",
+          "render"
+        ]
+      }
+    ]
+  }
+}
