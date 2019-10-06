@@ -30,6 +30,9 @@ const Deck = ({ slides }) => {
   useHotkeys("d", () =>
     setMode(prevMode => (prevMode === "draw" ? "view" : "draw"))
   );
+  useHotkeys("z", () =>
+    setMode(prevMode => (prevMode === "zoom" ? "view" : "zoom"))
+  );
 
   const slide = slides[index];
 
