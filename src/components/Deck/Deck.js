@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { useHotkeys } from "react-hotkeys-hook";
+import { useQueryParams, NumberParam } from "use-query-params";
 
 import Foto from "../Foto/Foto";
 import StatusBar from "../StatusBar/StatusBar";
@@ -17,15 +18,19 @@ function clip(value, range) {
 }
 
 const Deck = ({ slides }) => {
-  const [index, setIndex] = useState(0);
+  const [{ index }, setQuery] = useQueryParams({ index: NumberParam });
   const [mode, setMode] = useState("view");
-  console.log(index);
 
-  useHotkeys("left", () =>
-    setIndex(prevIndex => clip(prevIndex - 1, [0, slides.length - 1]))
+  useHotkeys(
+    "left",
+    () =>
+      setQuery({
+        index: clip(index ? index - 1 : 0 - 1, [0, slides.length - 1])
+      }),
+    [index]
   );
   useHotkeys("right", () =>
-    setIndex(prevIndex => clip(prevIndex + 1, [0, slides.length - 1]))
+    setQuery({ index: clip(index ? index + 1 : 0 + 1, [0, slides.length - 1]) })
   );
   useHotkeys("d", () =>
     setMode(prevMode => (prevMode === "draw" ? "view" : "draw"))
@@ -34,11 +39,11 @@ const Deck = ({ slides }) => {
     setMode(prevMode => (prevMode === "zoom" ? "view" : "zoom"))
   );
 
-  const slide = slides[index];
+  const slide = slides[index || 0];
 
   return (
     <div className="Deck">
-      <Foto slide={slide} mode={mode}></Foto>
+      <Foto slide={slide} mode={mode} drawColor={"black"}></Foto>
       <StatusBar mode={mode} />
     </div>
   );
