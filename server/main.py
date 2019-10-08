@@ -16,12 +16,12 @@ def read_root():
     return {"Hello": "World"}
 
 
-@app.get("/fotos/")
+@app.get("/api/fotos/")
 def read_fotos():
     return list_fotos()
 
 
-@app.get("/fotos/{foto_index}")
+@app.get("/api/fotos/{foto_index}")
 def read_foto(foto_index: int):
     return FileResponse(get_foto(foto_index))
 

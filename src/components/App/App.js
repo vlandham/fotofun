@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import Deck from "../Deck/Deck";
 import history from "../../history";
+
+import { api } from "../../api/api";
 
 import "./App.scss";
 
@@ -10,16 +12,27 @@ const SLIDES = [
 ];
 
 function App() {
-  const [, forceUpdate] = React.useReducer(x => x + 1, 0);
-  React.useEffect(() => {
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  useEffect(() => {
     // listen for changes to the URL and force the app to re-render
     history.listen(() => {
       forceUpdate();
     });
   }, []);
+
+  const [slides, setSlides] = useState([]);
+
+  useEffect(() => {
+    api
+      .getFotos()
+      .then(res => res.data)
+      // .then(data => console.log(data))
+      .then(data => setSlides(data));
+  }, []);
+
   return (
     <div className="App">
-      <Deck slides={SLIDES}></Deck>
+      <Deck slides={slides}></Deck>
     </div>
   );
 }
